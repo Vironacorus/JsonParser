@@ -1,0 +1,11 @@
+{
+  "hi": "this is test",
+  "Hello!": [ "hi", "hi!", "hello", "hello!" ],
+  "no": false,"yes": true,
+  "www": null,
+  "ab": {
+    "a": "b",
+    "c": "d"
+  },
+  "list" :  [false, true, null, "hi", 22, 25.08]
+}
