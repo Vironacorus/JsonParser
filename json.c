@@ -1,5 +1,22 @@
 #include "json.h"
 
+//thanks Stackoverflow :)
+int ipow(int base, int exp)
+{
+	int result = 1;
+	for (;;)
+	{
+		if (exp & 1)
+			result *= base;
+		exp >>= 1;
+		if (!exp)
+			break;
+		base *= base;
+	}
+
+	return result;
+}
+
 
 WCHAR* RawToUnicode(SLICE s)
 {
@@ -64,7 +81,12 @@ WCHAR* RawToUnicode(SLICE s)
 				wc[w] = '\b';
 			}
 			else
+			{
+				--w;
 				wc[w] = converted;
+			}
+
+			mode = FORMAT_MODE_NORMAL;
 			break;
 		case FORMAT_MODE_UNICODE:
 		{
@@ -264,7 +286,10 @@ JSONERROR JsonParse(_STRING str)
 					top_node = top_node->previous;
 				}
 				else if (c == '\\')
+				{
+					top_node->string.string_slice.length++;
 					state = PARSER_STATE_ESCAPE_STRING;
+				}
 				else
 					top_node->string.string_slice.length++;
 				break;
@@ -561,7 +586,7 @@ void PrintJsonTree(const JSONNODE* node, I32 depth)
 /*
 int main()
 {
-	char jsondata[1024] = {0};
+	char jsondata[1024];
 	FILE* file = fopen("test.json","r");
 	fread(jsondata,1,1024,file);
 	fclose(file);
