@@ -9,8 +9,8 @@
 //#define char wchar_t
 //#include <json.h>
 //#undef char
-typedef char CHAR;
-typedef const CHAR* STRING;
+typedef char _CHAR;
+typedef const _CHAR* _STRING;
 typedef uint8_t U8;
 typedef uint16_t U16;
 typedef uint32_t U32;
@@ -20,6 +20,7 @@ typedef int16_t I16;
 typedef int32_t I32;
 typedef int64_t I64;
 typedef size_t SIZEPARAM;
+typedef wchar_t WCHAR;
 #ifndef VOID //<Windows.h> defines VOID as void
 typedef void VOID;
 #endif
@@ -29,7 +30,7 @@ typedef struct JsonNode JSONNODE;
 
 typedef struct StringSlice
 {
-	STRING ptr;
+	_STRING ptr;
 	SIZEPARAM length;
 } SLICE;
 
@@ -133,7 +134,8 @@ typedef struct JsonError
 	};
 } JSONERROR;
 
-JSONERROR JsonParse(STRING str);
+JSONERROR JsonParse(_STRING str);
 void PrintJsonTree(const JSONNODE* node, I32 depth);
+WCHAR* RawToUnicode(SLICE s);
 
 #define DebugJson(N) PrintJsonTree(N,0)
